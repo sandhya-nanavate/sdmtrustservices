@@ -76667,7 +76667,7 @@ m=B.d.jF(p.e.a.a)
 l=B.d.jF(p.f.a.a)
 if(n.length===0||m.length===0||l.length===0){p.c.au(t.Pu).f.GA(B.M9)
 s=1
-break}o=A.k1("https://wa.me/918123313134?text="+A.CQ(2,"Hello! \ud83d\udc4b\n\nName: "+n+"\nContact: "+m+"\nMessage: "+l,B.a8,!1),0,null)
+break}o=A.k1("https://wa.me/919740014234?text="+A.CQ(2,"Hello! \ud83d\udc4b\n\nName: "+n+"\nContact: "+m+"\nMessage: "+l,B.a8,!1),0,null)
 s=6
 return A.S(A.alP(o),$async$qe)
 case 6:s=b?3:5

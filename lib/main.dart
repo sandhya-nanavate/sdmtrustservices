@@ -355,7 +355,7 @@ class _ContactSectionState extends State<ContactSection> {
   final _messageController = TextEditingController();
 
   // Replace with your WhatsApp number (country code without +)
-  final String whatsappNumber = "918123313134";
+  final String whatsappNumber = "919740014234";
 
   Future<void> _openWhatsApp() async {
     final name = _nameController.text.trim();
