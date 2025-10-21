@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ========== THEME & STYLE CONSTANTS ==========
 class AppColors {
@@ -339,9 +340,49 @@ class ServiceCard extends StatelessWidget {
     );
   }
 }
+ // Add this import
 
-class ContactSection extends StatelessWidget {
+class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
+
+  @override
+  State<ContactSection> createState() => _ContactSectionState();
+}
+
+class _ContactSectionState extends State<ContactSection> {
+  final _nameController = TextEditingController();
+  final _contactController = TextEditingController();
+  final _messageController = TextEditingController();
+
+  // Replace with your WhatsApp number (country code without +)
+  final String whatsappNumber = "918123313134";
+
+  Future<void> _openWhatsApp() async {
+    final name = _nameController.text.trim();
+    final contact = _contactController.text.trim();
+    final message = _messageController.text.trim();
+
+    if (name.isEmpty || contact.isEmpty || message.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill all fields")),
+      );
+      return;
+    }
+
+    final whatsappUrl = Uri.parse(
+      "https://wa.me/$whatsappNumber?text=${Uri.encodeComponent(
+        "Hello! 👋\n\nName: $name\nContact: $contact\nMessage: $message",
+      )}",
+    );
+
+    if (await canLaunchUrl(whatsappUrl)) {
+      await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Could not open WhatsApp")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -367,8 +408,9 @@ class ContactSection extends StatelessWidget {
             children: [
               SizedBox(
                 width: isMobile ? double.infinity : 300,
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Your Name',
                   ),
@@ -377,8 +419,9 @@ class ContactSection extends StatelessWidget {
               const SizedBox(width: 20, height: 20),
               SizedBox(
                 width: isMobile ? double.infinity : 300,
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: _contactController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Email / Phone',
                   ),
@@ -389,23 +432,26 @@ class ContactSection extends StatelessWidget {
           const SizedBox(height: 20),
           SizedBox(
             width: isMobile ? double.infinity : 620,
-            child: const TextField(
+            child: TextField(
+              controller: _messageController,
               maxLines: 4,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Message',
               ),
             ),
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {},
+          ElevatedButton.icon(
+            onPressed: _openWhatsApp,
+            icon: const Icon(Icons.chat),
+            label: const Text('Send via WhatsApp'),
             style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: AppColors.primary,
-                        ),
-            child: const Text('Submit Query'),
-          )
+              backgroundColor: Colors.white,
+              foregroundColor: AppColors.primary,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            ),
+          ),
         ],
       ),
     );
