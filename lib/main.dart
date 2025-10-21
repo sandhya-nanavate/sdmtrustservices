@@ -404,7 +404,7 @@ class ContactSection extends StatelessWidget {
                           backgroundColor: Colors.white,
                           foregroundColor: AppColors.primary,
                         ),
-            child: const Text('Submit'),
+            child: const Text('Submit Query'),
           )
         ],
       ),
